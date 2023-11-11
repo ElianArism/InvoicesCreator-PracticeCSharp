@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -70,7 +72,76 @@ namespace InvoicesCreator
 
             dataGridView1.Rows.Add(invoiceRow);
 
-            // https://www.youtube.com/watch?v=rmXDFM97Ue4 Continue tomorrow
+            this.calculateTotalAmount();
+
+        }
+
+        private void calculateTotalAmount()
+        {
+            decimal totalAmount = 0;
+            foreach (DataGridViewRow item in dataGridView1.Rows)
+            {
+                totalAmount += decimal.Parse(item.Cells[4].Value.ToString());   
+            }
+            totalAPagarLabel.Text = totalAmount.ToString();
+        }
+
+        private void eliminarBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult deleteItem = MessageBox.Show($"Desea eliminar el producto {dataGridView1.CurrentRow.Cells[1].Value}", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question); 
+                
+                if(deleteItem == DialogResult.Yes)
+                {
+                    // Current row === Row seleccionada
+                    dataGridView1.Rows.Remove(dataGridView1.CurrentRow);
+                    this.calculateTotalAmount();
+                    return; 
+                }
+            }
+            catch {}
+
+        }
+
+        private void efectivoTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            try {
+                decimal totalAmount = decimal.Parse(totalAPagarLabel.Text);
+                decimal paidAmount = decimal.Parse(efectivoTxtBox.Text);
+
+                decimal result = totalAmount - paidAmount;
+
+                if(result > 0) { return; }
+
+                devolucionLabel.Text = $"{Math.Abs(result)}";
+            }
+            catch { }
+        }
+
+        private void venderBtn_Click(object sender, EventArgs e)
+        {
+            string path = Path.Combine(Application.StartupPath, "factura.txt");
+
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine("********* EMPRESA: MADIEL *********");
+                sw.WriteLine("");
+                sw.WriteLine("");
+                sw.WriteLine("");
+                sw.WriteLine("------- CODIGO ------- | ------- PRECIO ------- | ------- PRODUCTO ------- | ------- CANTIDAD ------- | ------- TOTAL -------");
+                foreach( DataGridViewRow row in dataGridView1.Rows )
+                {
+                    sw.WriteLine($"{row.Cells[0].Value} | {row.Cells[1].Value} | {row.Cells[2].Value} | {row.Cells[3].Value} | {row.Cells[4].Value}");
+                }
+                sw.WriteLine($"TOTAL: ${totalAPagarLabel.Text}");
+                sw.WriteLine("");
+                sw.WriteLine($"DEVOLUCION: ${devolucionLabel.Text}");
+            }
+
+
+            // OPEN File
+            Process.Start(path); 
         }
     }
 }

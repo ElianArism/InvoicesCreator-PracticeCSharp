@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cantidadNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.efectivoTxtBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.precioLabel = new System.Windows.Forms.Label();
@@ -47,17 +48,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.venderBtn = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantidadNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.venderBtn = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -86,12 +86,30 @@
             this.panel1.Size = new System.Drawing.Size(645, 634);
             this.panel1.TabIndex = 0;
             // 
+            // cantidadNumericUpDown
+            // 
+            this.cantidadNumericUpDown.Location = new System.Drawing.Point(149, 239);
+            this.cantidadNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.cantidadNumericUpDown.Name = "cantidadNumericUpDown";
+            this.cantidadNumericUpDown.Size = new System.Drawing.Size(264, 22);
+            this.cantidadNumericUpDown.TabIndex = 19;
+            this.cantidadNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // efectivoTxtBox
             // 
             this.efectivoTxtBox.Location = new System.Drawing.Point(266, 572);
             this.efectivoTxtBox.Name = "efectivoTxtBox";
             this.efectivoTxtBox.Size = new System.Drawing.Size(112, 22);
             this.efectivoTxtBox.TabIndex = 18;
+            this.efectivoTxtBox.TextChanged += new System.EventHandler(this.efectivoTxtBox_TextChanged);
             // 
             // label13
             // 
@@ -165,6 +183,7 @@
             this.eliminarBtn.TabIndex = 9;
             this.eliminarBtn.Text = "Eliminar";
             this.eliminarBtn.UseVisualStyleBackColor = true;
+            this.eliminarBtn.Click += new System.EventHandler(this.eliminarBtn_Click);
             // 
             // agregarBtn
             // 
@@ -259,24 +278,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(611, 187);
             this.dataGridView1.TabIndex = 0;
             // 
-            // venderBtn
-            // 
-            this.venderBtn.Location = new System.Drawing.Point(322, 724);
-            this.venderBtn.Name = "venderBtn";
-            this.venderBtn.Size = new System.Drawing.Size(112, 54);
-            this.venderBtn.TabIndex = 19;
-            this.venderBtn.Text = "VENDER";
-            this.venderBtn.UseVisualStyleBackColor = true;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(353, 29);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(193, 16);
-            this.label14.TabIndex = 19;
-            this.label14.Text = "FACTURA VENTA MADIEL SA";
-            // 
             // Column1
             // 
             this.Column1.HeaderText = "CODIGO";
@@ -305,29 +306,31 @@
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
             // 
-            // cantidadNumericUpDown
-            // 
-            this.cantidadNumericUpDown.Location = new System.Drawing.Point(149, 239);
-            this.cantidadNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.cantidadNumericUpDown.Name = "cantidadNumericUpDown";
-            this.cantidadNumericUpDown.Size = new System.Drawing.Size(264, 22);
-            this.cantidadNumericUpDown.TabIndex = 19;
-            this.cantidadNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // Column5
             // 
             this.Column5.HeaderText = "TOTAL";
             this.Column5.MinimumWidth = 6;
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
+            // 
+            // venderBtn
+            // 
+            this.venderBtn.Location = new System.Drawing.Point(322, 724);
+            this.venderBtn.Name = "venderBtn";
+            this.venderBtn.Size = new System.Drawing.Size(112, 54);
+            this.venderBtn.TabIndex = 19;
+            this.venderBtn.Text = "VENDER";
+            this.venderBtn.UseVisualStyleBackColor = true;
+            this.venderBtn.Click += new System.EventHandler(this.venderBtn_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(353, 29);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(193, 16);
+            this.label14.TabIndex = 19;
+            this.label14.Text = "FACTURA VENTA MADIEL SA";
             // 
             // Form1
             // 
@@ -341,8 +344,8 @@
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
